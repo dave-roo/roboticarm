@@ -114,25 +114,17 @@ R_arm = np.array([[math.cos(J1)*math.cos(J2+J3), -math.sin(J1), math.cos(J1)*mat
 
 print(R_arm)
 
-RTarm = R_arm.transpose()
-print(RTarm)
-
-Rwrist = R.dot(RTarm)
+Rwrist = R.dot(R_arm)
 print(Rwrist)
 
-J4 = math.atan2(Rwrist[0][1], Rwrist[0][2])
-J4 = math.degrees(J4)
+J4 = math.atan2(Rwrist[0][1], -Rwrist[0][2])
+J4 = round(math.degrees(J4),1)
 print(J4)
 
 J5 = math.atan2(math.sqrt(1-pow(Rwrist[0][0],2)), Rwrist[0][0])
-J5 = math.degrees(J5)
+J5 = round(math.degrees(J5),1)
 print(J5)
 
 J6 = math.atan2(Rwrist[1][0],Rwrist[2][0])
-J6 = math.degrees(J6)
+J6 = round(math.degrees(J6),1)
 print(J6)
-
-#Expected Output
-#J4 = -124.7
-#J5 = 49.2
-#J6 = 136.6
