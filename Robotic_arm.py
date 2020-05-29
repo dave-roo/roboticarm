@@ -17,9 +17,9 @@ b4x = math.sqrt( math.pow(a4z,2) + math.pow((a4x + a5x),2) )
 TCPx = 1755
 TCPy = 0
 TCPz = 2660
-A = 0
-B = 0
-C = 0
+TCPa = 0
+TCPb = 0
+TCPc = 0
 
 def Joint1(WPx, WPy):
     J1 = math.atan2(WPy, WPx)
@@ -42,12 +42,16 @@ def Joint5(R11):
 def Joint6(R12, R13):
     J6 = math.atan2(R12, R13)
 
-Rx = np.array([[1, 0, 0], [0, math.cos(A), -math.sin(A)], [0, math.sin(A), math.cos(A)]])
-Ry = np.array([[math.cos(B), 0, math.sin(B)], [0, 1, 0], [-math.sin(B), 0, math.cos(B)]])
-Rz = np.array([[math.cos(C), -math.sin(C), 0], [math.sin(C), math.cos(C), 0], [0, 0, 1]])
+Rx = np.array([[1, 0, 0], [0, math.cos(TCPa), -math.sin(TCPa)], [0, math.sin(TCPa), math.cos(TCPa)]])
+Ry = np.array([[math.cos(TCPb), 0, math.sin(TCPb)], [0, 1, 0], [-math.sin(TCPb), 0, math.cos(TCPb)]])
+Rz = np.array([[math.cos(TCPc), -math.sin(TCPc), 0], [math.sin(TCPc), math.cos(TCPc), 0], [0, 0, 1]])
+
+#R = Rx(C)Ry(B)Rz(A)
 
 RXY = Rx.dot(Ry)
+
 RXYZ = RXY.dot(Rz)
+print("Rxyz" + str(RXYZ))
 
 x = np.array([[1],[0],[0]])
 
@@ -58,29 +62,30 @@ R21 = x_hat[1]
 R31 = x_hat[2]
 
 WPx = TCPx - a6x * R11
-print(WPx[0])
+print("WPx " + str(WPx[0]))
 
 WPy = TCPy - a6x * R21
-print(WPy[0])
+print("WPy " + str(WPy[0]))
 
 WPz = TCPz - a6x * R31
-print(WPz[0])
+print("WPz " + str(WPz[0]))
 
 WPxy = math.sqrt(math.pow(WPx,2) + math.pow(WPy,2))
 
-l = WPxy + a2x
-h = WPz - a1z - a2z
+l = WPxy - a2x #could be positive or negative. (see original calcs)
+h = WPz - a1z - a2z 
 alpha = math.atan2(h,l)
 p = math.sqrt(math.pow(h,2) + math.pow(l,2))
-print(p)
+
+print("Rho " + str(p))
 
 # p < a3z + b4x
 pCond1 = a3z + b4x
-print(pCond1)
+print("Condition 1 = p < a3z + b4x " + str(pCond1))
 
 # p > |a3z - b4x|
 pCond2 = abs(a3z - b4x)
-print(pCond2)
+print("Condition 2 = p > |a3z - b4x|" + str(pCond2))
 
 Bcalc = ( math.pow(p,2) + math.pow(a3z,2) - math.pow(b4x,2) )/( 2*p*a3z )
 B = np.arccos(Bcalc)
