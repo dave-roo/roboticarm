@@ -14,9 +14,9 @@ a6x = 244 #The offset of WP and TCP
 
 b4x = math.sqrt( math.pow(a4z,2) + math.pow((a4x + a5x),2) )
 
-TCPx = 1755
-TCPy = 0
-TCPz = 2660
+TCPx = 1500
+TCPy = 1000
+TCPz = 2000
 TCPa = 0
 TCPb = 0
 TCPc = 0
@@ -35,12 +35,15 @@ def Joint3(delta, y):
 
 def Joint4(R21, R31):
     J4 = math.atan2(R21, R31)
+    print("J4=" + str(round(J4,2)))
 
 def Joint5(R11):
     J5 = math.atan2(math.sqrt(1 - math.pow(R11, 2)), R11)
+    print("J5=" + str(round(J5,2)))
 
 def Joint6(R12, R13):
     J6 = math.atan2(R12, R13)
+    print("J6=" + str(round(J6,2)))
 
 Rx = np.array([[1, 0, 0], [0, math.cos(TCPa), -math.sin(TCPa)], [0, math.sin(TCPa), math.cos(TCPa)]])
 Ry = np.array([[math.cos(TCPb), 0, math.sin(TCPb)], [0, 1, 0], [-math.sin(TCPb), 0, math.cos(TCPb)]])
@@ -57,9 +60,14 @@ x = np.array([[1],[0],[0]])
 
 x_hat = RXYZ.dot(x)
 
+R12= RXYZ[0][1]
+R13= RXYZ[0][2]
+
 R11 = x_hat[0]
 R21 = x_hat[1]
 R31 = x_hat[2]
+
+
 
 WPx = TCPx - a6x * R11
 print("WPx " + str(WPx[0]))
@@ -97,6 +105,6 @@ delta = math.atan2(a4x + a5x, a4z)
 Joint1(WPx, WPy)
 Joint2(alpha, B)
 Joint3(delta, y)
-#Joint4(R21, R31)
-#Joint5(R11)
-#Joint6(R12, R13)
+Joint4(R21, R31)
+Joint5(R11)
+Joint6(R12, R13)
