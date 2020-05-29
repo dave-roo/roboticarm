@@ -26,12 +26,12 @@ def Joint1(WPx, WPy):
     print("J1=" + str(J1))
   
 def Joint2(alpha, B):
-    J2 = math.pi/2 - alpha + B
-    print("J2=" + str(J2))
+    J2 = round((math.pi/2),2) - alpha - B #B is positive if in down state
+    print("J2=" + str(round(J2,2)))
 
 def Joint3(delta, y):
     J3 = math.pi - y - delta
-    print("J3=" + str(J3))
+    print("J3=" + str(round(J3,2)))
 
 def Joint4(R21, R31):
     J4 = math.atan2(R21, R31)
@@ -75,17 +75,17 @@ WPxy = math.sqrt(math.pow(WPx,2) + math.pow(WPy,2))
 l = WPxy - a2x #could be positive or negative. (see original calcs)
 h = WPz - a1z - a2z 
 alpha = math.atan2(h,l)
-p = math.sqrt(math.pow(h,2) + math.pow(l,2))
+p = round(math.sqrt(math.pow(h,2) + math.pow(l,2)),0)
 
 print("Rho " + str(p))
 
 # p < a3z + b4x
 pCond1 = a3z + b4x
-print("Condition 1 = p < a3z + b4x " + str(pCond1))
+print("Condition 1 = Rho < a3z + b4x " + str(pCond1))
 
 # p > |a3z - b4x|
 pCond2 = abs(a3z - b4x)
-print("Condition 2 = p > |a3z - b4x|" + str(pCond2))
+print("Condition 2 = Rho > |a3z - b4x|" + str(pCond2))
 
 Bcalc = ( math.pow(p,2) + math.pow(a3z,2) - math.pow(b4x,2) )/( 2*p*a3z )
 B = np.arccos(Bcalc)
